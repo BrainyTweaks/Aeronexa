@@ -1,0 +1,12 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { clearStore } from '../../../lib/vectorStore'
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST' && req.method !== 'GET') return res.status(405).end()
+  try {
+    await clearStore()
+    res.status(200).json({ cleared: true })
+  } catch (e:any) {
+    res.status(500).json({ error: e.message })
+  }
+}
